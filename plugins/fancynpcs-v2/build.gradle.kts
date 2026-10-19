@@ -1,4 +1,6 @@
 import net.minecrell.pluginyml.paper.PaperPluginDescription
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.jvm.toolchain.JavaToolchainService
 
 plugins {
     id("java-library")
@@ -14,6 +16,15 @@ allprojects {
     group = "de.oliver"
     version = getFNVersion()
     description = "Simple, lightweight and fast NPC plugin using packets"
+
+    plugins.withId("java") {
+        val javaToolchains = extensions.getByType<JavaToolchainService>()
+        tasks.withType<JavaCompile>().configureEach {
+            javaCompiler.set(javaToolchains.compilerFor {
+                languageVersion.set(JavaLanguageVersion.of(25))
+            })
+        }
+    }
 
     repositories {
         maven(url = "https://repo.inventivetalent.org/repository/maven-snapshots/") // for MineSkin
@@ -180,10 +191,6 @@ tasks {
             expand(props)
         }
     }
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 }
 
 val gitCommitHash: Provider<String> = providers.exec {

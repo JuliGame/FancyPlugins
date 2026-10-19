@@ -5,6 +5,10 @@ plugins {
 
 paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 
+configurations.all {
+    resolutionStrategy.force("net.kyori:adventure-text-serializer-ansi:4.26.1")
+}
+
 dependencies {
     paperweight.paperDevBundle("1.21.9-R0.1-SNAPSHOT")
 

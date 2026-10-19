@@ -5,6 +5,12 @@ plugins {
 
 paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 
+// ponytail: paper's 1.21.11-R0.1-SNAPSHOT dev-bundle ships a broken (unversioned) constraint for
+// adventure-text-serializer-ansi; force the version paper's own bom uses elsewhere. Remove once upstream fixes it.
+configurations.all {
+    resolutionStrategy.force("net.kyori:adventure-text-serializer-ansi:4.26.1")
+}
+
 dependencies {
     paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT")
     compileOnly(project(":libraries:packets:packets-api"))
